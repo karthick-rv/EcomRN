@@ -14,7 +14,7 @@ const ImageButton = ({imageSource, buttonText}: any) => {
 const styles = StyleSheet.create({
   button: {
     flexDirection: 'row',
-    backgroundColor: 'lightblue',
+    backgroundColor: '#F4F4F4',
     paddingVertical: 12,
     paddingHorizontal: 20,
     borderRadius: 100,
@@ -23,9 +23,9 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: 'black',
-    fontWeight: 'bold',
+    fontWeight: '500',
     fontSize: 16,
-    marginLeft: 70,
+    marginLeft: 50,
   },
   buttonImage: {
     width: 20,

@@ -11,9 +11,10 @@ import React from 'react';
 import {StyleSheet} from 'react-native';
 
 import {} from 'react-native/Libraries/NewAppScreen';
-import Signin_page from './src/pages/signin_page';
 import ForgotPwd from './src/pages/forgotPwd';
 import CreateAccount from './src/pages/CreateAccount';
+import SignInPassword from './src/pages/sign_in_password';
+import SignInEmail from './src/pages/sign_in_email';
 
 const Stack = createStackNavigator();
 
@@ -22,9 +23,19 @@ const App = () => {
     <NavigationContainer>
       <Stack.Navigator initialRouteName="SignIn">
         <Stack.Screen
-          name="SignIn"
-          component={Signin_page}
-          options={{headerTitle: ''}}
+          name="SignInEmail"
+          component={SignInEmail}
+          options={{headerTitle: '', headerShown: false}}
+        />
+        <Stack.Screen
+          name="SignInPassword"
+          component={SignInPassword}
+          options={{
+            headerTitle: '',
+            headerShown: false,
+            presentation: 'modal',
+            animationTypeForReplace: 'push',
+          }}
         />
         <Stack.Screen
           name="ForgotPwd"

@@ -1,18 +1,27 @@
 import {ParamListBase, useNavigation} from '@react-navigation/native';
-import React, {useState} from 'react';
+import React, {createContext, useState} from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {NativeStackNavigationProp} from 'react-native-screens/lib/typescript/native-stack/types';
 import ImageButton from '../components/Button';
 import Textbox from '../components/Textbox';
+import {EmailContext} from '../context/EmailContext';
+
+export const emailContext = createContext('');
 
 const SignInEmail = () => {
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [emailError, setEmailError] = useState('');
+
   const [inputMode, setInputMode] = useState('email');
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
 
   const onContinuePress = () => {
-    navigation.navigate('SignInPassword');
+    if (email == '') {
+      setEmailError('Please enter valid email');
+      return;
+    }
+    setEmailError('');
+    navigation.navigate('SignInPassword', {email: email});
   };
 
   return (
@@ -24,6 +33,7 @@ const SignInEmail = () => {
         value={email}
         onChangeText={setEmail}
         placeholder="Email Address"
+        fieldError={emailError}
       />
       <TouchableOpacity onPress={onContinuePress} style={styles.continueButton}>
         <Text style={{color: 'white', fontSize: 16, fontWeight: '400'}}>

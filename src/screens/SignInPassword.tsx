@@ -1,16 +1,39 @@
 import {ParamListBase, useNavigation} from '@react-navigation/native';
-import React, {useState} from 'react';
+import React, {createContext, useState} from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {NativeStackNavigationProp} from 'react-native-screens/lib/typescript/native-stack/types';
 import ImageButton from '../components/Button';
 import Textbox from '../components/Textbox';
+import Config from '../constants/config';
+import AppModal from '../utilities/AppModal';
 
-const SignInPassword = () => {
-  const [email, setEmail] = useState('');
+const SignInPassword = ({route}: any) => {
   const [password, setPassword] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+  const [loginErrorModalVisible, setLoginErrorModalVisible] = useState(false);
+  const [loginErrorMessage, setLoginErrorMessage] = useState('');
+
+  const {email} = route.params;
+
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
 
-  const onContinuePress = () => {};
+  const onContinuePress = () => {
+    if (password == '') {
+      setPasswordError('Please enter password to continue');
+      return;
+    }
+    setPasswordError('');
+    console.log(`Email : ${email} | Password: ${password}`);
+
+    if (email == Config.EMAIL && password == Config.PASSWORD) {
+      console.log(`Login Success`);
+      navigation.navigate('Home');
+    } else {
+      console.log(`Login Failed`);
+      setLoginErrorMessage('Login Failed. Please try again');
+      setLoginErrorModalVisible(true);
+    }
+  };
 
   return (
     <View style={styles.itemContainer}>
@@ -22,6 +45,7 @@ const SignInPassword = () => {
         value={password}
         onChangeText={setPassword}
         placeholder="Password"
+        fieldError={passwordError}
       />
 
       <TouchableOpacity onPress={onContinuePress} style={styles.continueButton}>
@@ -37,6 +61,11 @@ const SignInPassword = () => {
           Reset
         </Text>
       </Text>
+
+      <AppModal
+        message={loginErrorMessage}
+        modalVisible={loginErrorModalVisible}
+        setModalVisible={setLoginErrorModalVisible}></AppModal>
     </View>
   );
 };

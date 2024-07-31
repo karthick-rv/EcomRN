@@ -1,7 +1,12 @@
 import React from 'react';
-import {StyleSheet, TextInput, View} from 'react-native';
+import {StyleSheet, Text, TextInput, View} from 'react-native';
 
-export default function Textbox({placeholder, value, onChangeText}: any) {
+export default function Textbox({
+  placeholder,
+  value,
+  onChangeText,
+  fieldError,
+}: any) {
   return (
     <View style={styles.container}>
       <TextInput
@@ -10,6 +15,7 @@ export default function Textbox({placeholder, value, onChangeText}: any) {
         value={value}
         placeholder={placeholder}
       />
+      {fieldError && <Text style={styles.inputError}>{fieldError}</Text>}
     </View>
   );
 }
@@ -23,5 +29,10 @@ var styles = StyleSheet.create({
     padding: 15,
     borderRadius: 5,
     backgroundColor: '#F4F4F4',
+  },
+  inputError: {
+    fontSize: 10,
+    color: 'red',
+    fontWeight: '300',
   },
 });

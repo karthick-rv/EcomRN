@@ -6,36 +6,57 @@
  */
 
 import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
+import {
+  CardStyleInterpolators,
+  createStackNavigator,
+  TransitionSpecs,
+} from '@react-navigation/stack';
 import React from 'react';
-import {StyleSheet} from 'react-native';
+import {Easing, StyleSheet} from 'react-native';
 
 import {} from 'react-native/Libraries/NewAppScreen';
-import ForgotPwd from './src/pages/forgotPwd';
-import CreateAccount from './src/pages/CreateAccount';
-import SignInPassword from './src/pages/sign_in_password';
-import SignInEmail from './src/pages/sign_in_email';
+import ForgotPwd from './src/screens/ForgetPassword';
+import CreateAccount from './src/screens/CreateAccount';
+import SignInPassword from './src/screens/SignInPassword';
+import SignInEmail from './src/screens/SignInEmail';
+import Home from './src/screens/Home';
 
 const Stack = createStackNavigator();
+
+const MyTransitionSpec = {
+  animation: 'timing' as const,
+  config: {
+    duration: 500,
+    easing: Easing.out(Easing.poly(4)),
+  },
+};
 
 const App = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="SignIn">
+      <Stack.Navigator
+        initialRouteName="SignIn"
+        screenOptions={{
+          headerTitle: '',
+          headerShown: false,
+          // presentation: 'modal',
+          animationTypeForReplace: 'push',
+          transitionSpec: {
+            open: MyTransitionSpec,
+            close: MyTransitionSpec,
+          },
+          gestureDirection: 'horizontal',
+          cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+        }}>
         <Stack.Screen
           name="SignInEmail"
           component={SignInEmail}
-          options={{headerTitle: '', headerShown: false}}
+          options={{headerTitle: ''}}
         />
         <Stack.Screen
           name="SignInPassword"
           component={SignInPassword}
-          options={{
-            headerTitle: '',
-            headerShown: false,
-            presentation: 'modal',
-            animationTypeForReplace: 'push',
-          }}
+          options={{}}
         />
         <Stack.Screen
           name="ForgotPwd"
@@ -46,6 +67,12 @@ const App = () => {
         <Stack.Screen
           name="CreateAccount"
           component={CreateAccount}
+          options={{headerTitle: ''}}
+        />
+
+        <Stack.Screen
+          name="Home"
+          component={Home}
           options={{headerTitle: ''}}
         />
       </Stack.Navigator>

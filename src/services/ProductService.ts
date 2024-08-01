@@ -4,7 +4,6 @@ class ProductService {
   static async getProducts() {
     try {
       const response = await apiClient.get('/products/');
-      console.log('Products', response.data);
       return response.data;
     } catch (error) {
       throw error;
@@ -14,7 +13,16 @@ class ProductService {
   static async getProductCategories() {
     try {
       const response = await apiClient.get('/products/categories');
-      console.log('Product Categories', response.data);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  static async getProductsByCategory(category: String) {
+    try {
+      const response = await apiClient.get(`/products/category/${category}`);
+      console.log(response.data);
       return response.data;
     } catch (error) {
       throw error;

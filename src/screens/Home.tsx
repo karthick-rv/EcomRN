@@ -1,18 +1,11 @@
-import React, {useEffect, useState} from 'react';
-import {
-  Image,
-  Text,
-  View,
-  FlatList,
-  StyleSheet,
-  ScrollView,
-  LogBox,
-} from 'react-native';
+import React, {useContext, useEffect, useState} from 'react';
+import {Image, Text, View, FlatList, StyleSheet, LogBox} from 'react-native';
 import ProductService from '../services/ProductService';
-import {SafeAreaView} from 'react-native-safe-area-context';
 import {TouchableOpacity} from 'react-native-gesture-handler';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import {FavoritesContext} from '../context/FavoritesContext';
 
-interface Product {
+export interface Product {
   id: number;
   title: string;
   price: string;
@@ -20,11 +13,13 @@ interface Product {
   description: string;
   image: string;
   rating: {rate: number; count: number};
+  isFavorite: boolean;
 }
 
 const Home = () => {
   const [items, setItems] = useState<Product[]>([]);
   const [categoryItem, setCategories] = useState<string[]>([]);
+  const {favorites, setFavorites} = useContext(FavoritesContext);
 
   useEffect(() => {
     ProductService.getProducts().then(products => {
@@ -34,10 +29,10 @@ const Home = () => {
     ProductService.getProductCategories().then(categories => {
       setCategories(categories);
     });
-    LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
   }, []);
 
-  const displayItem = ({item}: {item: Product}) => {
+  const renderProductItem = ({item}: {item: Product}) => {
+    const favoritesIds = favorites.map(favorite => favorite.id);
     return (
       <View style={styles.itemContainer}>
         <Image
@@ -49,18 +44,50 @@ const Home = () => {
           {item.title}
         </Text>
         <View style={styles.priceContainer}>
-          <Text style={styles.dollar}>$</Text>
-          <Text style={styles.price}>{item.price}</Text>
+          <View style={{flex: 3, flexDirection: 'row'}}>
+            <Text style={styles.dollar}>$</Text>
+            <Text style={styles.price}>{item.price}</Text>
+          </View>
+          <TouchableOpacity
+            style={styles.icon}
+            onPress={() => onFavoritePress(item)}>
+            <Ionicons
+              name={favoritesIds.includes(item.id) ? 'heart' : 'heart-outline'}
+              size={25}
+              color="red"
+            />
+          </TouchableOpacity>
         </View>
       </View>
     );
   };
 
-  const displayCategories = ({item}: {item: string}) => {
+  const onFavoritePress = (item: Product) => {
+    console.log(`Favorite press`);
+    const itemsUpdated = items.map(product => {
+      if (product.id == item.id) {
+        console.log(`${item.title} Favorite Updated`);
+        product.isFavorite = !product.isFavorite;
+        if (!product.isFavorite) {
+          setFavorites(favorites.filter(favorite => favorite.id != product.id));
+        } else {
+          favorites.push(item);
+          setFavorites(favorites);
+        }
+      }
+      return product;
+    });
+    setItems(itemsUpdated);
+  };
+
+  const renderCategoryItem = ({item}: {item: string}) => {
     return (
       <TouchableOpacity
-        onPress={() => {
+        onPress={async () => {
           console.log(`${item} clicked.`);
+          await ProductService.getProductsByCategory(item).then(products => {
+            setItems(products);
+          });
         }}>
         <View style={styles.categoryContainer}>
           <Image
@@ -69,7 +96,6 @@ const Home = () => {
             }}
             style={styles.circularImgView}
           />
-
           <Text
             style={{color: 'black', fontSize: 9, fontWeight: 'bold'}}
             ellipsizeMode="tail"
@@ -82,14 +108,14 @@ const Home = () => {
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.scrollContainer}>
+    <View style={styles.scrollContainer}>
       <Text style={styles.sectionTitle}>Categories</Text>
       <View>
         <FlatList
           data={categoryItem}
           horizontal={true}
           keyExtractor={(item, index) => String(index)}
-          renderItem={displayCategories}
+          renderItem={renderCategoryItem}
           contentContainerStyle={[styles.container, {backgroundColor: 'white'}]}
         />
       </View>
@@ -100,11 +126,11 @@ const Home = () => {
           horizontal={false}
           numColumns={2}
           keyExtractor={item => String(item.id)}
-          renderItem={displayItem}
+          renderItem={renderProductItem}
           contentContainerStyle={[styles.container, {backgroundColor: 'white'}]}
         />
       </View>
-    </ScrollView>
+    </View>
   );
 };
 
@@ -179,6 +205,10 @@ const styles = StyleSheet.create({
   dollar: {
     fontSize: 12,
     color: 'darkblue',
+  },
+
+  icon: {
+    flex: 1,
   },
 });
 

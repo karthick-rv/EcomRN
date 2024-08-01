@@ -27,7 +27,7 @@ const SignInPassword = ({route}: any) => {
 
     if (email == Config.EMAIL && password == Config.PASSWORD) {
       console.log(`Login Success`);
-      navigation.navigate('Home');
+      navigation.navigate('BottomTabs');
     } else {
       console.log(`Login Failed`);
       setLoginErrorMessage('Login Failed. Please try again');

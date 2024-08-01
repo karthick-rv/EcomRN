@@ -20,6 +20,7 @@ import CreateAccount from './src/screens/CreateAccount';
 import SignInPassword from './src/screens/SignInPassword';
 import SignInEmail from './src/screens/SignInEmail';
 import Home from './src/screens/Home';
+import BottomTabs from './src/navigation/BottomTabNavigation';
 
 const Stack = createStackNavigator();
 
@@ -71,8 +72,8 @@ const App = () => {
         />
 
         <Stack.Screen
-          name="Home"
-          component={Home}
+          name="BottomTabs"
+          component={BottomTabs}
           options={{headerTitle: ''}}
         />
       </Stack.Navigator>

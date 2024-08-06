@@ -2,13 +2,13 @@ import {ParamListBase, useNavigation} from '@react-navigation/native';
 import React, {createContext, useState} from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {NativeStackNavigationProp} from 'react-native-screens/lib/typescript/native-stack/types';
-import ImageButton from '../components/Button';
-import Textbox from '../components/Textbox';
+import ImageButton from '../components/common/Button';
+import Textbox from '../components/common/Textbox';
 import Config from '../constants/config';
 import AppModal from '../utilities/AppModal';
 import {CommonActions} from '@react-navigation/native';
 import AuthService from '../services/AuthService';
-import LoadingSpinner from '../components/LoadingSpinner';
+import LoadingSpinner from '../components/common/LoadingSpinner';
 import {UIUtils} from '../utilities/UIUtils';
 
 const SignInPassword = ({route}: any) => {

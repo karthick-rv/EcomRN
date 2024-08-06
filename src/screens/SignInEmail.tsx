@@ -2,9 +2,9 @@ import {ParamListBase, useNavigation} from '@react-navigation/native';
 import React, {createContext, useState} from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {NativeStackNavigationProp} from 'react-native-screens/lib/typescript/native-stack/types';
-import ImageButton from '../components/Button';
-import Textbox from '../components/Textbox';
-import LoadingSpinner from '../components/LoadingSpinner';
+import ImageButton from '../components/common/Button';
+import Textbox from '../components/common/Textbox';
+import LoadingSpinner from '../components/common/LoadingSpinner';
 
 export const emailContext = createContext('');
 

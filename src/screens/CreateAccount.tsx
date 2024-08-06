@@ -1,11 +1,11 @@
 import React, {useState} from 'react';
 import {Button, SafeAreaView, StyleSheet, Text, View} from 'react-native';
-import Textbox from '../components/Textbox';
+import Textbox from '../components/common/Textbox';
 
-import BackButton from '../components/BackButton';
+import BackButton from '../components/common/BackButton';
 import {ParamListBase, useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from 'react-native-screens/lib/typescript/native-stack/types';
-import CurvedButton from '../components/CurvedButton';
+import CurvedButton from '../components/common/CurvedButton';
 import AuthService from '../services/AuthService';
 import {UIUtils} from '../utilities/UIUtils';
 

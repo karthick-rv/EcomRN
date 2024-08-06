@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "742569882182",
+    "project_id": "ecomrn-58f21",
+    "storage_bucket": "ecomrn-58f21.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:742569882182:android:01d2ce168bf9ca64ab5047",
+        "android_client_info": {
+          "package_name": "com.EcomRN"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBW9lMt_TsWshixmbluyyWlFPyK6ICu7J4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

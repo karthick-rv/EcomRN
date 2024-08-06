@@ -4,13 +4,14 @@ import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {NativeStackNavigationProp} from 'react-native-screens/lib/typescript/native-stack/types';
 import ImageButton from '../components/Button';
 import Textbox from '../components/Textbox';
-import {EmailContext} from '../context/EmailContext';
+import LoadingSpinner from '../components/LoadingSpinner';
 
 export const emailContext = createContext('');
 
 const SignInEmail = () => {
   const [email, setEmail] = useState('');
   const [emailError, setEmailError] = useState('');
+  const [isLoading, setLoading] = useState(false);
 
   const [inputMode, setInputMode] = useState('email');
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
@@ -21,7 +22,11 @@ const SignInEmail = () => {
       return;
     }
     setEmailError('');
-    navigation.navigate('SignInPassword', {email: email});
+    setLoading(true);
+    setTimeout(() => {
+      navigation.navigate('SignInPassword', {email: email});
+      setLoading(false);
+    }, 1000);
   };
 
   return (
@@ -36,9 +41,13 @@ const SignInEmail = () => {
         fieldError={emailError}
       />
       <TouchableOpacity onPress={onContinuePress} style={styles.continueButton}>
-        <Text style={{color: 'white', fontSize: 16, fontWeight: '400'}}>
-          Continue
-        </Text>
+        {isLoading ? (
+          <LoadingSpinner loading={isLoading} />
+        ) : (
+          <Text style={{color: 'white', fontSize: 16, fontWeight: '400'}}>
+            Continue
+          </Text>
+        )}
       </TouchableOpacity>
 
       <Text style={styles.createOneText}>

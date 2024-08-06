@@ -1,15 +1,8 @@
 import {useContext, useEffect} from 'react';
 import {FavoritesContext} from '../context/FavoritesContext';
-import {
-  FlatList,
-  Image,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {FlatList, Image, StyleSheet, Text, View} from 'react-native';
 import {Product} from './Home';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 const renderProductItem = ({item}: {item: Product}) => {
   return (
@@ -40,9 +33,9 @@ const FavoriteProducts = () => {
   }, [favorites]);
 
   return (
-    <>
+    <SafeAreaView style={styles.screeContainer}>
       <Text style={styles.sectionTitle}>Products</Text>
-      <View style={{flex: 1}}>
+      <View>
         <FlatList
           data={favorites}
           horizontal={false}
@@ -52,11 +45,16 @@ const FavoriteProducts = () => {
           contentContainerStyle={[styles.container, {backgroundColor: 'white'}]}
         />
       </View>
-    </>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
+  screeContainer: {
+    flex: 1,
+    backgroundColor: 'white',
+    padding: 20,
+  },
   container: {
     backgroundColor: 'white',
     marginVertical: 10,

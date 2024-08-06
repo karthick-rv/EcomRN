@@ -6,33 +6,46 @@ import ImageButton from '../components/Button';
 import Textbox from '../components/Textbox';
 import Config from '../constants/config';
 import AppModal from '../utilities/AppModal';
+import {CommonActions} from '@react-navigation/native';
+import AuthService from '../services/AuthService';
+import LoadingSpinner from '../components/LoadingSpinner';
+import {UIUtils} from '../utilities/UIUtils';
 
 const SignInPassword = ({route}: any) => {
   const [password, setPassword] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const [loginErrorModalVisible, setLoginErrorModalVisible] = useState(false);
   const [loginErrorMessage, setLoginErrorMessage] = useState('');
+  const [isLoading, setLoading] = useState(false);
 
   const {email} = route.params;
 
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
 
-  const onContinuePress = () => {
+  const onContinuePress = async () => {
     if (password == '') {
       setPasswordError('Please enter password to continue');
       return;
     }
     setPasswordError('');
     console.log(`Email : ${email} | Password: ${password}`);
+    setLoading(true);
 
-    if (email == Config.EMAIL && password == Config.PASSWORD) {
-      console.log(`Login Success`);
-      navigation.navigate('BottomTabs');
-    } else {
+    const response = await AuthService.signIn(email, password);
+    setLoading(false);
+    if (response.user == null) {
       console.log(`Login Failed`);
       setLoginErrorMessage('Login Failed. Please try again');
       setLoginErrorModalVisible(true);
+      return;
     }
+    UIUtils.showSnackBar('Login Successful');
+    navigation.dispatch(
+      CommonActions.reset({
+        index: 0, // The index of the route you want to show (0 is the first route)
+        routes: [{name: 'BottomTabs'}], // Array of routes you want to set in the stack
+      }),
+    );
   };
 
   return (
@@ -49,9 +62,13 @@ const SignInPassword = ({route}: any) => {
       />
 
       <TouchableOpacity onPress={onContinuePress} style={styles.continueButton}>
-        <Text style={{color: 'white', fontSize: 16, fontWeight: '400'}}>
-          Continue
-        </Text>
+        {isLoading ? (
+          <LoadingSpinner loading={isLoading} />
+        ) : (
+          <Text style={{color: 'white', fontSize: 16, fontWeight: '400'}}>
+            Continue
+          </Text>
+        )}
       </TouchableOpacity>
       <Text style={styles.createOneText}>
         Forgot password ?{' '}

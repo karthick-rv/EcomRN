@@ -3,12 +3,19 @@ import {Button, SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import Textbox from '../components/Textbox';
 
 import BackButton from '../components/BackButton';
+import {ParamListBase, useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from 'react-native-screens/lib/typescript/native-stack/types';
+import CurvedButton from '../components/CurvedButton';
+import AuthService from '../services/AuthService';
+import {UIUtils} from '../utilities/UIUtils';
 
 export default function CreateAccount() {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
 
   return (
     <SafeAreaView
@@ -17,38 +24,48 @@ export default function CreateAccount() {
         backgroundColor: '#FFFFFF',
         padding: 20,
       }}>
-      <BackButton />
+      <BackButton onPress={() => navigation.goBack()} />
       <Text style={styles.title}>Create Account</Text>
 
       <Textbox
         placeholder={'Firstname'}
         value={firstName}
-        onChange={setFirstName}></Textbox>
+        onChangeText={setFirstName}></Textbox>
 
       <Textbox
         placeholder={'Lastname'}
         value={lastName}
-        onChange={setLastName}></Textbox>
+        onChangeText={setLastName}></Textbox>
 
       <Textbox
         placeholder={'Email Address'}
         value={email}
-        onChange={setEmail}></Textbox>
+        onChangeText={setEmail}></Textbox>
 
       <Textbox
         placeholder={'Password'}
         value={password}
-        onChange={setPassword}></Textbox>
+        onChangeText={setPassword}></Textbox>
 
       <View style={{marginTop: 50}}>
-        <Button
-          onPress={() => {
-            console.log('Continue Clicked');
+        <CurvedButton
+          buttonText={'Continue'}
+          loading={loading}
+          onPress={async () => {
+            setLoading(true);
             console.log(
               `FirstName - ${firstName} | LastName - ${lastName} | Email - ${email} | password - ${password}`,
             );
+            const response = await AuthService.signUp(email, password);
+            setLoading(false);
+            if (response.user == null) {
+              if (response.error != null) {
+                UIUtils.showSnackBar(response.error);
+              }
+            } else {
+              navigation.navigate('SignInEmail');
+            }
           }}
-          title="Continue"
           color="#8E6CEF"
         />
       </View>
@@ -78,7 +95,7 @@ var styles = StyleSheet.create({
   forgetPasswordContainer: {
     flex: 1,
     flexDirection: 'row',
-    marginTop: 30,
+    marginTop: 10,
   },
 
   forgetPasswordText: {

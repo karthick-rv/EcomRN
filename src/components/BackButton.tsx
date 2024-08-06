@@ -1,12 +1,13 @@
 import {StyleSheet, View} from 'react-native';
+import {TouchableHighlight} from 'react-native-gesture-handler';
 // @ts-ignore
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
-export default function BackButton() {
+export default function BackButton({onPress}: {onPress: () => void}) {
   return (
-    <View style={styles.container}>
+    <TouchableHighlight style={styles.container} onPress={onPress}>
       <Icon name="chevron-left" size={16} color="black" />
-    </View>
+    </TouchableHighlight>
   );
 }
 

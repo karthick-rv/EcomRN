@@ -6,7 +6,7 @@ const LoadingSpinner = ({loading}: {loading: boolean}) => {
 
   return (
     <View style={styles.container}>
-      {loading && <ActivityIndicator size={25} color="#0000ff" />}
+      {loading && <ActivityIndicator size={25} color="black" />}
     </View>
   );
 };

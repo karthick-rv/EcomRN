@@ -5,8 +5,9 @@ import {TouchableOpacity} from 'react-native-gesture-handler';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {FavoritesContext} from '../context/FavoritesContext';
 import {ProductsContext, ProductsProvider} from '../context/ProductsContext';
-import {Categories} from '../components/home/Categories';
+import {Categories, Category} from '../components/home/Categories';
 import {Products} from '../components/home/Products';
+import Divider from '../components/common/Divider';
 
 export interface Product {
   id: number;
@@ -20,7 +21,7 @@ export interface Product {
 }
 
 const Home = () => {
-  const [categories, setCategories] = useState<string[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
   const {products, setProducts} = useContext(ProductsContext);
 
   useEffect(() => {
@@ -29,13 +30,26 @@ const Home = () => {
     });
 
     ProductService.getProductCategories().then(categories => {
-      setCategories(categories);
+      const newCategories: Category[] = categories.map((category: string) => {
+        return {name: category, selected: false};
+      });
+      setCategories(newCategories);
     });
   }, []);
 
+  const resetProducts = () => {
+    ProductService.getProducts().then(products => {
+      setProducts(products);
+    });
+  };
+
   return (
     <View style={styles.scrollContainer}>
-      <Categories categories={categories}></Categories>
+      <Categories
+        categories={categories}
+        setCategories={setCategories}
+        resetProducts={resetProducts}></Categories>
+      <Divider />
       <Products />
     </View>
   );
@@ -46,7 +60,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'white',
     paddingTop: 20,
-    paddingLeft: 20,
+    paddingHorizontal: 20,
     justifyContent: 'flex-start',
   },
   container: {

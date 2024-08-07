@@ -66,7 +66,7 @@ export const Products = () => {
   };
 
   return (
-    <View>
+    <View style={{flex: 1}}>
       <Text style={styles.sectionTitle}>Products</Text>
       <FlatList
         data={products}
@@ -75,6 +75,7 @@ export const Products = () => {
         keyExtractor={item => String(item.id)}
         renderItem={renderProductItem}
         contentContainerStyle={[styles.container, {backgroundColor: 'white'}]}
+        showsVerticalScrollIndicator={false}
       />
     </View>
   );

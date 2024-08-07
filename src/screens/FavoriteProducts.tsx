@@ -34,17 +34,27 @@ const FavoriteProducts = () => {
 
   return (
     <SafeAreaView style={styles.screeContainer}>
-      <Text style={styles.sectionTitle}>Products</Text>
-      <View>
-        <FlatList
-          data={favorites}
-          horizontal={false}
-          numColumns={2}
-          keyExtractor={item => String(item.id)}
-          renderItem={renderProductItem}
-          contentContainerStyle={[styles.container, {backgroundColor: 'white'}]}
-        />
-      </View>
+      <Text style={styles.sectionTitle}>Favorite Products</Text>
+
+      {favorites.length > 0 ? (
+        <View>
+          <FlatList
+            data={favorites}
+            horizontal={false}
+            numColumns={2}
+            keyExtractor={item => String(item.id)}
+            renderItem={renderProductItem}
+            contentContainerStyle={[
+              styles.container,
+              {backgroundColor: 'white'},
+            ]}
+          />
+        </View>
+      ) : (
+        <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+          <Text> Add Items to Favorites to see it here </Text>
+        </View>
+      )}
     </SafeAreaView>
   );
 };

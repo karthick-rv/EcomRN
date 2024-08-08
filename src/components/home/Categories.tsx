@@ -142,6 +142,5 @@ const styles = StyleSheet.create({
   circleHighlightOverlay: {
     borderColor: 'black',
     borderWidth: 2,
-    borderRadius: 50,
   },
 });

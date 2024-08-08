@@ -52,7 +52,7 @@ const FavoriteProducts = () => {
         </View>
       ) : (
         <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-          <Text> Add Items to Favorites to see it here </Text>
+          <Text> Add Products to Favorites to see it here </Text>
         </View>
       )}
     </SafeAreaView>

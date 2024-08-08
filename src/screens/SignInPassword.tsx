@@ -10,6 +10,8 @@ import {CommonActions} from '@react-navigation/native';
 import AuthService from '../services/AuthService';
 import LoadingSpinner from '../components/common/LoadingSpinner';
 import {UIUtils} from '../utilities/UIUtils';
+import {LocalStorageManager} from '../utilities/LocalStorageManager';
+import {Storage} from '../constants/storage';
 
 const SignInPassword = ({route}: any) => {
   const [password, setPassword] = useState('');
@@ -39,6 +41,10 @@ const SignInPassword = ({route}: any) => {
       setLoginErrorModalVisible(true);
       return;
     }
+    LocalStorageManager.storeData(
+      Storage.USER_KEY,
+      JSON.stringify(response.user),
+    );
     UIUtils.showSnackBar('Login Successful');
     navigation.dispatch(
       CommonActions.reset({

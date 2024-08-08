@@ -5,6 +5,7 @@ import React from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {FavoritesProvider} from '../context/FavoritesContext';
 import {ProductsProvider} from '../context/ProductsContext';
+import {Profile} from '../screens/Profile';
 
 const Tab = createBottomTabNavigator();
 
@@ -21,6 +22,8 @@ function BottomTabs() {
                 iconName = focused ? 'home' : 'home-outline';
               } else if (route.name === 'Favorites') {
                 iconName = focused ? 'heart' : 'heart-outline';
+              } else if (route.name === 'Profile') {
+                iconName = focused ? 'person' : 'person-outline';
               }
 
               // Return the icon component
@@ -34,6 +37,7 @@ function BottomTabs() {
           })}>
           <Tab.Screen name="Home" component={Home} />
           <Tab.Screen name="Favorites" component={FavoriteProducts} />
+          <Tab.Screen name="Profile" component={Profile} />
         </Tab.Navigator>
       </FavoritesProvider>
     </ProductsProvider>

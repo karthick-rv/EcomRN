@@ -22,6 +22,7 @@ import SignInEmail from './src/screens/SignInEmail';
 import Home from './src/screens/Home';
 import BottomTabs from './src/navigation/BottomTabNavigation';
 import firebase from '@react-native-firebase/app';
+import Splash from './src/screens/Splash';
 
 const Stack = createStackNavigator();
 
@@ -37,7 +38,7 @@ const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="SignIn"
+        initialRouteName="Splash"
         screenOptions={{
           headerTitle: '',
           headerShown: false,
@@ -50,6 +51,11 @@ const App = () => {
           gestureDirection: 'horizontal',
           cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
         }}>
+        <Stack.Screen
+          name="Splash"
+          component={Splash}
+          options={{headerTitle: ''}}
+        />
         <Stack.Screen
           name="SignInEmail"
           component={SignInEmail}

@@ -11,11 +11,53 @@ import {UIUtils} from '../utilities/UIUtils';
 
 export default function CreateAccount() {
   const [firstName, setFirstName] = useState('');
+  const [fnameError, setFNameError] = useState('');
   const [lastName, setLastName] = useState('');
+  const [lnameError, setLNameError] = useState('');
   const [email, setEmail] = useState('');
+  const [emailError, setEmailError] = useState('');
   const [password, setPassword] = useState('');
+  const [passwordError, setPasswordError] = useState('');
   const [loading, setLoading] = useState(false);
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
+
+  const onContinuePress = async () => {
+    if (firstName == '') {
+      setFNameError('Please enter first name');
+    } else {
+      setFNameError('');
+    }
+
+    if (lastName == '') {
+      setLNameError('Please enter last name');
+    } else {
+      setLNameError('');
+    }
+
+    if (email == '') {
+      setEmailError('Please enter email');
+    } else {
+      setEmailError('');
+    }
+
+    if (password == '') {
+      setPasswordError('Please enter password');
+      return;
+    } else {
+      setPasswordError('');
+    }
+
+    setLoading(true);
+    const response = await AuthService.signUp(email, password);
+    setLoading(false);
+    if (response.user == null) {
+      if (response.error != null) {
+        UIUtils.showSnackBar(response.error);
+      }
+    } else {
+      navigation.navigate('SignInEmail');
+    }
+  };
 
   return (
     <SafeAreaView
@@ -30,42 +72,32 @@ export default function CreateAccount() {
       <Textbox
         placeholder={'Firstname'}
         value={firstName}
-        onChangeText={setFirstName}></Textbox>
+        onChangeText={setFirstName}
+        fieldError={fnameError}></Textbox>
 
       <Textbox
         placeholder={'Lastname'}
         value={lastName}
-        onChangeText={setLastName}></Textbox>
+        onChangeText={setLastName}
+        fieldError={lnameError}></Textbox>
 
       <Textbox
         placeholder={'Email Address'}
         value={email}
-        onChangeText={setEmail}></Textbox>
+        onChangeText={setEmail}
+        fieldError={emailError}></Textbox>
 
       <Textbox
         placeholder={'Password'}
         value={password}
-        onChangeText={setPassword}></Textbox>
+        onChangeText={setPassword}
+        fieldError={passwordError}></Textbox>
 
       <View style={{marginTop: 50}}>
         <CurvedButton
           buttonText={'Continue'}
           loading={loading}
-          onPress={async () => {
-            setLoading(true);
-            console.log(
-              `FirstName - ${firstName} | LastName - ${lastName} | Email - ${email} | password - ${password}`,
-            );
-            const response = await AuthService.signUp(email, password);
-            setLoading(false);
-            if (response.user == null) {
-              if (response.error != null) {
-                UIUtils.showSnackBar(response.error);
-              }
-            } else {
-              navigation.navigate('SignInEmail');
-            }
-          }}
+          onPress={onContinuePress}
           color="#8E6CEF"
         />
       </View>

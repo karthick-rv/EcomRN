@@ -5,7 +5,10 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 
 export default function BackButton({onPress}: {onPress: () => void}) {
   return (
-    <TouchableHighlight style={styles.container} onPress={onPress}>
+    <TouchableHighlight
+      style={styles.container}
+      onPress={onPress}
+      testID="back-btn">
       <Icon name="chevron-left" size={16} color="black" />
     </TouchableHighlight>
   );

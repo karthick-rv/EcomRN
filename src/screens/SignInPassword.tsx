@@ -28,9 +28,9 @@ const SignInPassword = ({route}: any) => {
     if (password == '') {
       setPasswordError('Please enter password to continue');
       return;
+    } else {
+      setPasswordError('');
     }
-    setPasswordError('');
-    console.log(`Email : ${email} | Password: ${password}`);
     setLoading(true);
 
     const response = await AuthService.signIn(email, password);

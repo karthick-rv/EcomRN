@@ -33,6 +33,6 @@ var styles = StyleSheet.create({
   inputError: {
     fontSize: 10,
     color: 'red',
-    fontWeight: '300',
+    fontWeight: '500',
   },
 });

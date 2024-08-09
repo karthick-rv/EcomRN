@@ -56,7 +56,7 @@ export const Categories = ({
           <View
             style={[
               styles.imageContainer,
-              item.selected == true && styles.circleHighlightOverlay,
+              item.selected && styles.circleHighlightOverlay,
             ]}>
             <Image source={images[index]} style={styles.circularImgView} />
           </View>
@@ -135,7 +135,7 @@ const styles = StyleSheet.create({
   imageContainer: {
     width: 70,
     height: 70,
-    borderRadius: 50,
+    borderRadius: 100,
     alignItems: 'center',
     justifyContent: 'center',
   },

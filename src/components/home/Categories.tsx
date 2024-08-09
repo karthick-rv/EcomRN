@@ -10,7 +10,6 @@ import {
 import ProductService from '../../services/ProductService';
 import {useContext} from 'react';
 import {ProductsContext} from '../../context/ProductsContext';
-import {TouchableHighlight} from 'react-native-gesture-handler';
 
 export interface Category {
   name: string;
@@ -36,7 +35,6 @@ export const Categories = ({
   };
 
   const renderCategoryItem = (item: Category, index: number) => {
-    console.log('Category', item);
     return (
       <View style={styles.categoryContainer}>
         <TouchableOpacity
@@ -62,12 +60,7 @@ export const Categories = ({
           </View>
         </TouchableOpacity>
         <Text
-          style={{
-            color: 'black',
-            fontSize: 8,
-            fontWeight: 'bold',
-            marginTop: 10,
-          }}
+          style={styles.categoryName}
           ellipsizeMode="tail"
           numberOfLines={1}>
           {item.name.toUpperCase()}
@@ -78,13 +71,7 @@ export const Categories = ({
 
   return (
     <View>
-      <View
-        style={{
-          width: 'auto',
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-        }}>
+      <View style={styles.categorytitle}>
         <Text style={styles.sectionTitle}>Categories</Text>
         <TouchableOpacity
           onPress={() => {
@@ -95,7 +82,7 @@ export const Categories = ({
             setCategories(updatedCategories);
             resetProducts();
           }}>
-          <Text style={{color: 'black', fontWeight: '400'}}>Clear</Text>
+          <Text style={styles.clearText}>Clear</Text>
         </TouchableOpacity>
       </View>
       <FlatList
@@ -140,7 +127,21 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   circleHighlightOverlay: {
+    borderRadius: 50,
     borderColor: 'black',
     borderWidth: 2,
+  },
+  categorytitle: {
+    width: 'auto',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  clearText: {color: 'black', fontWeight: '400'},
+  categoryName: {
+    color: 'black',
+    fontSize: 8,
+    fontWeight: 'bold',
+    marginTop: 10,
   },
 });
